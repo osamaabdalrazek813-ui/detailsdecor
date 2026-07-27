@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>حاسبة تكلفة التشطيب التقريبية — تفاصيل ديكور</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Cairo:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0A08;
+    --card:#15120D;
+    --card2:#100E0A;
+    --line:#2a2620;
+    --line2:#3a3528;
+    --gold:#E8C766;
+    --gold-dim:#9c7c1f;
+    --text:#EDE6D6;
+    --muted:#8C8576;
+    --muted2:#5c5749;
+    --field:#0F0D09;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(232,199,102,0.06), transparent),
+      radial-gradient(900px 500px at 100% 110%, rgba(201,162,39,0.05), transparent),
+      var(--bg);
+    font-family:'Tajawal', sans-serif;
+    color:var(--text);
+    display:flex;
+    justify-content:center;
+    padding:24px 16px;
+  }
+  .wrap{width:100%; max-width:560px;}
+  .eyebrow{
+    text-align:center;
+    font-family:'Cairo', sans-serif;
+    font-size:11px;
+    letter-spacing:.3em;
+    color:var(--gold-dim);
+    margin-bottom:8px;
+  }
+  .eyebrow-en{
+    text-align:center;
+    font-family:'Cairo', sans-serif;
+    font-size:12px;
+    letter-spacing:.04em;
+    color:var(--muted);
+    margin-bottom:14px;
+    direction:ltr;
+  }
+  h1{
+    text-align:center;
+    font-family:'Cairo', sans-serif;
+    font-size:24px;
+    margin:0 0 8px;
+  }
+  .sub{
+    text-align:center;
+    color:var(--muted);
+    font-size:13.5px;
+    max-width:420px;
+    margin:0 auto 24px;
+    line-height:1.6;
+  }
+  .card{
+    background:linear-gradient(180deg, var(--card) 0%, var(--card2) 100%);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  }
+  label.field{display:block; margin-bottom:20px;}
+  .flabel{display:block; font-size:14px; color:var(--gold); margin-bottom:8px; font-weight:500;}
+  input[type=number], input[type=text]{
+    width:100%;
+    background:var(--field);
+    border:1px solid var(--line2);
+    border-radius:10px;
+    padding:12px 14px;
+    color:var(--text);
+    font-family:inherit;
+    font-size:15px;
+    outline:none;
+    transition:border-color .2s;
+  }
+  input::placeholder{color:var(--muted2);}
+  input:focus{border-color:var(--gold);}
+
+  .seg{display:flex; gap:8px; flex-wrap:wrap;}
+  .seg-btn{
+    flex:1; min-width:88px;
+    padding:11px 10px; border-radius:10px; font-size:13.5px; text-align:center;
+    border:1px solid var(--line2); background:transparent; color:#C9C2B0;
+    cursor:pointer; transition:all .2s; font-family:inherit;
+  }
+  .seg-btn:hover{border-color:rgba(232,199,102,.6);}
+  .seg-btn.active{background:var(--gold); color:var(--card); border-color:var(--gold); font-weight:700;}
+
+  .result{
+    margin-top:6px;
+    background:var(--field);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:20px;
+    text-align:center;
+  }
+  .result-label{font-size:12.5px; color:var(--muted); margin-bottom:6px;}
+  .result-value{
+    font-family:'Cairo', sans-serif;
+    font-size:26px; font-weight:800; color:var(--gold);
+    direction:ltr; unicode-bidi:plaintext;
+  }
+  .result-sub{font-size:12px; color:var(--muted2); margin-top:8px; line-height:1.6;}
+
+  .actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;}
+  .btn{
+    border:none; border-radius:10px; font-family:inherit; cursor:pointer;
+    font-size:14px; padding:12px 22px; transition:all .2s; text-decoration:none; display:inline-block;
+  }
+  .btn-gold{background:var(--gold); color:var(--card); font-weight:700;}
+  .btn-gold:hover{background:#f2d684;}
+  .btn-outline{background:transparent; border:1px solid var(--line2); color:var(--text); font-weight:500;}
+  .btn-outline:hover{border-color:rgba(232,199,102,.6);}
+
+  .disclaimer{
+    font-size:11.5px; color:var(--muted2); text-align:center;
+    margin-top:18px; line-height:1.7; max-width:440px; margin-inline:auto;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">تفاصيل ديكور · Details</div>
+  <div class="eyebrow-en">Eng. Osama Abdelrazek — Interior Design</div>
+  <h1>حاسبة تكلفة التشطيب التقريبية</h1>
+  <p class="sub">اعرف رينج تقريبي لتكلفة تشطيب مساحتك في ثواني، وابعتلنا التفاصيل عشان نديك عرض سعر دقيق.</p>
+
+  <div class="card">
+    <label class="field">
+      <span class="flabel">نوع المساحة</span>
+      <div class="seg" id="spaceSeg">
+        <button type="button" class="seg-btn active" data-val="1">شقة</button>
+        <button type="button" class="seg-btn" data-val="1.15">مكتب</button>
+        <button type="button" class="seg-btn" data-val="1.1">محل تجاري</button>
+      </div>
+    </label>
+
+    <label class="field">
+      <span class="flabel">مستوى التشطيب</span>
+      <div class="seg" id="levelSeg">
+        <button type="button" class="seg-btn active" data-min="3500" data-max="5000">اقتصادي</button>
+        <button type="button" class="seg-btn" data-min="5500" data-max="8000">متوسط</button>
+        <button type="button" class="seg-btn" data-min="8500" data-max="14000">لوكس</button>
+      </div>
+    </label>
+
+    <label class="field">
+      <span class="flabel">المساحة (م²)</span>
+      <input type="number" id="area" placeholder="مثال: 120" min="1" />
+    </label>
+
+    <div class="result">
+      <div class="result-label">التكلفة التقريبية للتشطيب</div>
+      <div class="result-value" id="resultValue">— أدخل المساحة —</div>
+      <div class="result-sub" id="resultSub"></div>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-gold" id="waBtn" href="#" target="_blank" rel="noopener noreferrer">اطلب عرض سعر دقيق عبر واتساب</a>
+      <button class="btn btn-outline" id="copyBtn">نسخ النتيجة</button>
+    </div>
+  </div>
+
+  <p class="disclaimer">
+    الأرقام دي تقديرية بس عشان تدّيك فكرة أولية سريعة، وبتختلف حسب الخامات والموقع وتفاصيل التنفيذ. السعر النهائي بيتحدد بعد معاينة المساحة فعلياً.
+  </p>
+</div>
+
+<script>
+const WHATSAPP_NUMBER = "201013556614";
+
+let spaceMultiplier = 1;
+let spaceLabel = "شقة";
+let levelMin = 3500, levelMax = 5000, levelLabel = "اقتصادي";
+
+const spaceSeg = document.getElementById('spaceSeg');
+const levelSeg = document.getElementById('levelSeg');
+const areaInput = document.getElementById('area');
+const resultValue = document.getElementById('resultValue');
+const resultSub = document.getElementById('resultSub');
+
+spaceSeg.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.seg-btn');
+  if(!btn) return;
+  [...spaceSeg.children].forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  spaceMultiplier = parseFloat(btn.dataset.val);
+  spaceLabel = btn.textContent.trim();
+  calculate();
+});
+
+levelSeg.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.seg-btn');
+  if(!btn) return;
+  [...levelSeg.children].forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  levelMin = parseFloat(btn.dataset.min);
+  levelMax = parseFloat(btn.dataset.max);
+  levelLabel = btn.textContent.trim();
+  calculate();
+});
+
+areaInput.addEventListener('input', calculate);
+
+function fmt(n){
+  return Math.round(n).toLocaleString('en-US');
+}
+
+function calculate(){
+  const area = parseFloat(areaInput.value);
+  if(!area || area <= 0){
+    resultValue.textContent = '— أدخل المساحة —';
+    resultSub.textContent = '';
+    updateWa(null, null);
+    return;
+  }
+  const min = levelMin * spaceMultiplier * area;
+  const max = levelMax * spaceMultiplier * area;
+  resultValue.textContent = `${fmt(min)} — ${fmt(max)} جنيه`;
+  resultSub.textContent = `${spaceLabel} · تشطيب ${levelLabel} · ${area} م²`;
+  updateWa(min, max);
+}
+
+function updateWa(min, max){
+  let msg;
+  if(min && max){
+    msg = `مرحباً، عملت حساب تقريبي لتشطيب مساحتي:
+نوع المساحة: ${spaceLabel}
+المساحة: ${areaInput.value} م²
+مستوى التشطيب: ${levelLabel}
+التقدير التقريبي: ${fmt(min)} — ${fmt(max)} جنيه
+
+حابب أعرف عرض سعر أدق، ممكن نتكلم؟`;
+  } else {
+    msg = `مرحباً، حابب أعرف تفاصيل تشطيب مساحتي، ممكن نتكلم؟`;
+  }
+  document.getElementById('waBtn').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
+
+document.getElementById('copyBtn').onclick = async ()=>{
+  const area = parseFloat(areaInput.value);
+  if(!area) return;
+  const min = levelMin * spaceMultiplier * area;
+  const max = levelMax * spaceMultiplier * area;
+  const text = `${spaceLabel} · تشطيب ${levelLabel} · ${area} م²
+التكلفة التقريبية: ${fmt(min)} — ${fmt(max)} جنيه`;
+  try{
+    await navigator.clipboard.writeText(text);
+    const b = document.getElementById('copyBtn');
+    const old = b.textContent; b.textContent = '✓ تم النسخ';
+    setTimeout(()=> b.textContent = old, 2000);
+  }catch(e){}
+};
+
+updateWa(null, null);
+</script>
+</body>
+</html>
